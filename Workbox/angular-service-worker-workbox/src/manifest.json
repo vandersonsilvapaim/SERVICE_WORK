@@ -1,0 +1,15 @@
+{
+    "name": "AngularServiceWorkerWorkbox",
+    "short_name": "ASW2",
+    "theme_color": "#2a0044",
+    "background_color": "#2a0044",
+    "display": "standalone",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "favicon.ico",
+        "sizes": "72x72",
+        "type": "ico"
+      }
+    ]
+}

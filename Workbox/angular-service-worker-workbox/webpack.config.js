@@ -10,8 +10,7 @@ const postcssUrl = require('postcss-url');
 const cssnano = require('cssnano');
 const postcssImports = require('postcss-import');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const dist = './dist/';
-var WebpackPluginCopy = require('webpack-plugin-copy');
+const dist = './dist/'; 
 
 const WorkboxBuildWebpackPlugin = require('workbox-webpack-plugin');
 
@@ -123,7 +122,7 @@ module.exports = {
     "modules": [
       "./node_modules",
       "./node_modules"
-    ],
+    ], 
     "symlinks": true,
     "alias": rxPaths(),
     "mainFields": [
@@ -143,6 +142,9 @@ module.exports = {
     "main": [
       "./src\\main.ts"
     ],
+    "sw": [
+      "./dist\\sw.js"
+    ],
     "polyfills": [
       "./src\\polyfills.ts"
     ],
@@ -152,7 +154,7 @@ module.exports = {
   },
   "output": {
     "path": path.join(process.cwd(), "dist"),
-    "filename": "[name].bundle.js",
+    "filename": "[name].[hash].bundle.js",
     "chunkFilename": "[id].chunk.js",
     "crossOriginLoading": false
   },
@@ -419,25 +421,12 @@ module.exports = {
     ]
   },
   "plugins": [
-    new CleanWebpackPlugin([dist]),
+    //new CleanWebpackPlugin([dist]),
     new NoEmitOnErrorsPlugin(),
     new CopyWebpackPlugin([
-      {
-        "context": "src",
-        "to": "",
-        "from": {
-          "glob": "src\\assets\\**\\*",
-          "dot": true
-        }
-      },
-      {
-        "context": "src",
-        "to": "",
-        "from": {
-          "glob": "src\\favicon.ico",
-          "dot": true
-        }
-      }
+      { context: 'src/assets/', from: '*', to: '', toType: 'file' },
+      { from: 'src/favicon.ico', to: '', toType: 'file'} ,
+      { from: 'src/manifest.json', to: '', toType: 'file'} 
     ], {
       "ignore": [
         ".gitkeep",
@@ -527,12 +516,7 @@ module.exports = {
       "tsConfigPath": "src\\tsconfig.app.json",
       "skipCodeGeneration": true,
       "compilerOptions": {}
-    }),
-    new WebpackPluginCopy([{
-      from: './src/assets/workbox-sw.prod.v2.1.2.js',
-      to: './workbox-sw.prod.v2.1.2.js',
-      toType: 'file'
-  }]),
+    }), 
     new WorkboxBuildWebpackPlugin({
       globDirectory: dist,
       globPatterns: ['**\/*.{html,js,css}'],
